@@ -20,7 +20,6 @@ def game_of_life(matrices):
 
             num_neighbors = num_neighbors - matrices[i][j]
             print("neighbors: ",num_neighbors, end="\t")
-            # update the cells for next generation
             if num_neighbors in [0, 1] or num_neighbors > 3:
                     print("die")
                     nex_M[i][j] = 0
