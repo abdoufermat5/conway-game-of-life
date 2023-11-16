@@ -1,2 +1,2 @@
-game-of-life @ file:///home/abdou/Documents/apps/conway-game-of-life
+galsen-game-of-life==0.1
 websockets==12.0

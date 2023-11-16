@@ -1,7 +1,7 @@
 import asyncio
 import websockets
 import json
-from game_of_life import game_of_life  # Import your game_of_life function
+from galsen_game_of_life import game_of_life  # Import your game_of_life function
 
 
 async def game_of_life_server(websocket, path):
