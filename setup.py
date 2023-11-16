@@ -5,7 +5,7 @@ current_dir = Path(__file__).parent
 long_description = (current_dir / "README.md").read_text()
 setup(
     name='galsen_game_of_life',
-    version='0.1',
+    version='1.1',
     packages=find_packages(),
     license='GPLv3',
     description='Game of life version galsen',
@@ -20,5 +20,10 @@ setup(
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         'Programming Language :: Python :: 3.8',
     ],
+    entry_points={
+        'console_scripts': [
+            'galsen_game_of_life=galsen_game_of_life.__main__:main',
+        ],
+    },
     url="https://github.com/abdoufermat5/conway-game-of-life"
 )

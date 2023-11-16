@@ -6,6 +6,8 @@ composée de cases carrées appelées cellules qui ont un état binaire (1 pour 
 évoluent dans le temps en fonction de leur voisinage (chaque cellule a 8 cellules voisines)., ce qui modifie la grille
 à chaque étape d'évolution (appelée génération).
 
+![illustration](https://upload.wikimedia.org/wikipedia/commons/e/e5/Gospers_glider_gun.gif)
+
 ### Règles
 - Une cellule morte possédant exactement 3 voisines vivantes devient vivante (elle naît).
 - Une cellule vivante possédant 2 ou 3 voisines vivantes le reste, sinon elle meurt.
@@ -13,29 +15,59 @@ composée de cases carrées appelées cellules qui ont un état binaire (1 pour 
 
 ### Implémentation
 - Le jeu de la vie est implémenté en python sous forme de package: `game_of_life`
-- A COMPLETER AU FIL DU TEMPS 
+- Le package est publie sur PyPi: https://pypi.org/project/galsen-game-of-life/
 
 ### Utilisation
-
-On a mis en place un websocket pour pouvoir communiquer avec le jeu de la vie.
-Pour lancer le serveur websocket, on a utiliser fastapi (peut etre pas necessaire mais on veut faire d'autres trucs openAPI)
-Pour lancer le serveur websocket, il faut lancer le script `main_server.py` dans le dossier `api/` avec uvicorn:
+On commence par installer le package:
 ```bash
-uvicorn main_server:app --reload
+pip3 install galsen-game-of-life
 ```
-Le serveur websocket est alors accessible sur `ws://localhost:8000/ws`
+Pour tester notre implementation du jeu de la vie on a plusieurs options:
+
+#### 1. application client/serveur
+On a mis en place un [websocket](https://fr.wikipedia.org/wiki/Websocket) client/serveur.
+
+![illustration](https://upload.wikimedia.org/wikipedia/commons/1/10/Websocket_connection.png)
+
+Pour lancer le serveur websocket, il faut lancer le script `main_server.py` dans le dossier `api/`:
+```bash
+python3 api/main_server.py
+```
+
+Le serveur websocket est alors accessible sur `ws://localhost:8000`
 
 Ensuite on a mis en place un client javascript pour pouvoir communiquer avec le serveur websocket.
 Il suffit juste d'ouvrir le fichier `index.html` dans un navigateur web pour pouvoir jouer au jeu de la vie.
 
-### TODO Ameliorations de l'algo et du package
-- [ ] Decoupler le code: possibilité POO
-- [ ] Revoir la complexité de l'algo pour le moment enorme!!
+<b>Spoiler Alert:</b> On est pas trop bon en html/css par ici!! 
 
-### TODO Ameliorations de l'UI et l'UX
-- [ ] Ajouter une grille infinie (illusion d'infini) zoomable
-- [ ] Ajouter un bouton pour lancer le jeu
-- [ ] Ajouter un bouton pour arreter le jeu
-- [ ] Ajouter un bouton pour faire une etape
-- [ ] Ajouter un bouton pour effacer la grille
-- [ ] Ajouter un bouton pour generer un etat aleatoire
+#### 2. application console
+
+On peut aussi jouer au jeu de la vie en ligne de commande. Pour cela il vous faudra un fichier de depart contenant un etat initial
+Exemple de fichier de depart:
+```bash title="test-data.txt"
+0 1 1 1 1 0 1 1 0 1
+0 0 0 0 0 0 0 0 0 1
+1 0 0 0 1 1 0 0 1 0
+0 1 1 0 1 1 0 1 0 1
+0 0 0 0 0 1 1 1 0 0
+0 0 0 1 0 0 1 0 1 0
+1 0 1 1 1 0 0 1 0 1
+1 1 0 0 0 0 0 0 1 1
+1 0 1 0 1 1 0 1 1 1
+1 0 0 0 0 0 1 0 0 0
+```
+Pour lancer le jeu de la vie en ligne de commande, il faut ensuite installer le package `galsen-game-of-life`:
+
+```bash
+pip3 install galsen-game-of-life
+```
+
+ensuite on peut lancer en ligne de commande:
+```bash
+galsen-game-of-life --input test-data.txt --num-steps 10 --output-file test-data-out.txt
+```
+Si on veut voir les etapes intermediaires, on peut ajouter l'option `--verbose`:
+```bash
+galsen-game-of-life --input test-data.txt --num-steps 10 --output-file test-data-out.txt --verbose 1
+```
