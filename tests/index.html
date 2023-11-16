@@ -1,12 +1,48 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Game of Life Conway</title>
+    <title>Game of Life</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
+
 <body>
-    <h1>Conway's Game of Life</h1>
-    <!-- TODO: remplacer par un truc plus beau-->
-    <div id="matrices"></div>
+    <h1>Game of Life Conway</h1>
+    <div class="description">
+
+        <h2>Rules</h2>
+        <div>
+            <ul>
+                <li>Any live cell with fewer than 2 live neighbours dies by underpopulation.</li>
+                <li>Any live cell with 2 or 3 live neighbours lives on to the next generation.</li>
+                <li>Any live cell with more than 3 live neighbours dies by overpopulation.</li>
+                <li>Any dead cell with exactly 3 live neighbours becomes a live cell by reproduction.</li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="playRule">
+        <span>To create a new cell dead or alive click on the canvas</span>
+    </div>
+    <div class="stepNum">
+        Number of steps:
+        <input type="number" id="numSteps" value="100" min="1" max="1000">
+        
+    </div>
+    <div class="randomStateGen">
+        <button id="randomStateBtn">Generate Random State</button>
+    </div>
+    <canvas id="gameCanvas"></canvas>
+    <div class="btnCOntainer">
+        <button id="startBtn">Start</button>
+        <button id="pauseBtn">Pause</button>
+        <button id="resetBtn">Reset</button>
+    </div>
+    <footer class="footer">
+        <p>Created by <a href="https://abdoufermat-5.netlify.app/">Abdoufermat</a></p>
+    </footer>
     <script src="index.js"></script>
 </body>
+
 </html>

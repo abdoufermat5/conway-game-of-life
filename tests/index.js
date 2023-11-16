@@ -1,52 +1,125 @@
-const socket = new WebSocket("ws://127.0.0.1:8000/ws/game-of-life");
+document.addEventListener("DOMContentLoaded", function () {
+  const canvas = document.getElementById("gameCanvas");
+  const ctx = canvas.getContext("2d");
+  const sizeOfCell = 10;
+  let matrices = [];
+  let isRunning = false;
+  let step = 100;
+  let socket;
 
+  canvas.width = 500;
+  canvas.height = 500;
 
-socket.onopen = function (e) {
-    console.log("here we go!");
-    // on envoi l'etat initial au serveur
-    // TODO: remplacer par un etat aléatoire OU un etat choisi par l'utilisateur
-    socket.send(JSON.stringify({
-        initial_state: [
-            [0, 1, 0, 1, 0],
-            [1, 0, 1, 0, 0],
-            [0, 1, 1, 0, 0],
-            [0, 0, 1, 0, 0],
-            [0, 0, 0, 0, 0]
-        ],
-        // TODO: remplacer par un nombre choisi par l'utilisateur
-        steps: 10,
-        // TODO: remplacer par un nombre choisi par l'utilisateur (par defaut 1s)
-        delay: 1
-    }));
-};
+  function initiateWebSocket() {
+    socket = new WebSocket("ws://localhost:8000");
+    socket.onmessage = function (event) {
+      updateGrid(JSON.parse(event.data));
+    };
 
-socket.onmessage = function(event) {
-    const data = JSON.parse(event.data);
-    console.log("state :", data.current_state);
-    displayGameState(data.current_state);
-};
+    socket.onclose = function (event) {
+      console.log("Connection closed");
+    };
+    socket.onerror = function (event) {
+      console.log("Error: " + event.data);
+    };
+  }
 
-socket.onerror = function(error) {
-    console.log(`erreur: ${error.message}`);
-};
+  function updateGrid(newState) {
+    matrices = newState;
+    drawMatricesGrid();
+  }
 
-// afficher l'etat du jeu: la matrice bi-dimensionnelle
-function displayGameState(state) {
+  function drawMatricesGrid() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (let y = 0; y < matrices.length; y++) {
+      for (let x = 0; x < matrices[y].length; x++) {
+        ctx.fillStyle = matrices[y][x] ? "black" : "white";
+        ctx.fillRect(x * sizeOfCell, y * sizeOfCell, sizeOfCell, sizeOfCell);
+      }
+    }
 
-    matrices.innerHTML = '';
+    // les quadrillages
+    ctx.strokeStyle = "#000";
+    // les lignes verticales
+    for (let i = 0; i <= canvas.width; i += sizeOfCell) {
+      ctx.beginPath();
+      ctx.moveTo(i, 0);
+      ctx.lineTo(i, canvas.height);
+      ctx.stroke();
+    }
+    // les lignes horizontales
+    for (let j = 0; j <= canvas.height; j += sizeOfCell) {
+      ctx.beginPath();
+      ctx.moveTo(0, j);
+      ctx.lineTo(canvas.width, j);
+      ctx.stroke();
+    }
+  }
 
+  canvas.addEventListener("click", function (event) {
+    if (!isRunning) {
+      const rect = canvas.getBoundingClientRect();
+      const x = Math.floor((event.clientX - rect.left) / sizeOfCell);
+      const y = Math.floor((event.clientY - rect.top) / sizeOfCell);
+      matrices[y][x] = matrices[y][x] ? 0 : 1;
+      drawMatricesGrid();
+    }
+  });
 
-    state.forEach(row => {
-        const rowDiv = document.createElement('div');
-        row.forEach(cell => {
-            const cellDiv = document.createElement('div');
-            cellDiv.style.width = '20px';
-            cellDiv.style.height = '20px';
-            cellDiv.style.display = 'inline-block';
-            cellDiv.style.border = '1px solid black';
-            cellDiv.style.backgroundColor = cell ? 'black' : 'white';
-            rowDiv.appendChild(cellDiv);
-        });
-        matrices.appendChild(rowDiv);
+  document.getElementById("startBtn").addEventListener("click", function () {
+    if (!isRunning) {
+      isRunning = true;
+      if (socket.readyState === WebSocket.CLOSED) {
+        initiateWebSocket();
+      }
+
+      if (socket.readyState === WebSocket.OPEN) {
+        socket.send(
+          JSON.stringify({ initial_state: matrices, steps: step, delay: 0 })
+        );
+      } else {
+        setTimeout(() => {
+          socket.send(
+            JSON.stringify({ initial_state: matrices, steps: step, delay: 0 })
+          );
+        }, 1000);
+      }
+    }
+  });
+
+  document.getElementById("pauseBtn").addEventListener("click", function () {
+    isRunning = false;
+    socket.close();
+  });
+
+  document.getElementById("resetBtn").addEventListener("click", function () {
+    matrices = Array(50)
+      .fill() // 50 lignes vides
+      .map(() => Array(50).fill(0)); // 50 colonnes de 0 par ligne
+    drawMatricesGrid(); // dessine la grille
+    isRunning = false;
+  });
+
+  document
+    .getElementById("randomStateBtn")
+    .addEventListener("click", function () {
+      if (!isRunning) {
+        matrices = Array(50)
+          .fill()
+          .map(() =>
+            Array(50)
+              .fill()
+              .map(() => Math.round(Math.random()))
+          );
+        drawMatricesGrid();
+      }
     });
-}
+
+  // update du nombre d'etapes
+  document.getElementById("numSteps").addEventListener("change", function () {
+    step = parseInt(numSteps.value);
+  });
+
+  initiateWebSocket();
+  resetBtn.click();
+});

@@ -1,0 +1,96 @@
+body {
+  background-color: #9e9696;
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  text-align: left;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+h1 {
+  font-size: 35px;
+  font-weight: 500;
+  line-height: 1.2;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.description {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  border-radius: 10px;
+  padding: 5px;
+  width: 100%;
+}
+
+.description h2 {
+  align-self: center;
+}
+
+.playRule {
+  font-weight: bolder;
+  text-align: center;
+}
+.playRule span {
+  border: 1px dashed black;
+  padding: 10px;
+  padding-inline: 15px;
+}
+
+.stepNum {
+  margin-top: 25px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.randomStateGen {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+.randomStateGen button {
+    margin: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #f5f5f5;
+    cursor: pointer;
+}
+
+canvas {
+  display: flex;
+  margin: 0 auto;
+  border: 1px solid black;
+  margin-top: 10px;
+}
+
+.btnCOntainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+.btnCOntainer button {
+  margin: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: #f5f5f5;
+  cursor: pointer;
+}
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+  margin-top: 10px;
+}
