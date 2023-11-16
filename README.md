@@ -17,6 +17,9 @@ composée de cases carrées appelées cellules qui ont un état binaire (1 pour 
 - Le jeu de la vie est implémenté en python sous forme de package: `galsen_game_of_life`
 - Le package est publie sur PyPi: https://pypi.org/project/galsen-game-of-life/
 
+```python
+```
+
 ### Utilisation
 Vu qu'on a mis notre solution sous forme de package donc pour l'utiliser indépendemment du test qu'on propose dans ce projet vous devez creer un projet python et installer le package.
 
@@ -32,6 +35,49 @@ Pour tester notre implementation du jeu de la vie on a plusieurs options:
 Pour notre part on a mis en place un [websocket](https://fr.wikipedia.org/wiki/Websocket) client/serveur.
 
 ![illustration](https://upload.wikimedia.org/wikipedia/commons/1/10/Websocket_connection.png)
+
+```python
+import asyncio
+import websockets
+import json
+from galsen_game_of_life import game_of_life  
+
+
+async def game_of_life_server(websocket, path):
+    try:
+        initial_message = await websocket.recv()
+        data = json.loads(initial_message)
+        initial_state = data["initial_state"]
+        print("Initial state: ", initial_state, sep="\n")
+        steps = data["steps"]
+        delay = data["delay"]
+
+        current_state = initial_state
+
+        for _ in range(steps):
+            current_state = game_of_life(current_state)
+
+            await websocket.send(json.dumps(current_state))
+
+            await asyncio.sleep(delay)
+    except websockets.exceptions.ConnectionClosedOK:
+        print("Connection closed normally")
+    except websockets.exceptions.ConnectionClosedError as e:
+        print("Connection closed with error:", e)
+
+
+
+if __name__ == "__main__":
+
+    start_server = websockets.serve(game_of_life_server, "localhost", 8000)
+    print("Server started at localhost:8000")
+    asyncio.get_event_loop().run_until_complete(start_server)
+    asyncio.get_event_loop().run_forever()
+
+```
+Dans ce code on ouvre un socket sur 8000 pour interagir avec un client. A la reception d'un etat et les params associés, le serveur renvoie en streaming tous les etats (generations) jusqu'a atteindre un certains nombre `steps` spécifié
+par le client.
+Puis il se remet a l'ecoute jusqu'a ce que la connection soit fermé par le client.
 
 Pour lancer le serveur websocket, il faut lancer le script `main_server.py` dans le dossier `api/`:
 
