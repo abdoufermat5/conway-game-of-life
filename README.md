@@ -168,3 +168,4 @@ Si on veut voir les etapes intermediaires, on peut ajouter l'option `--verbose`:
 ```bash
 galsen-game-of-life --input test-data.txt --num-steps 10 --output-file test-data-out.txt --verbose 1
 ```
+
