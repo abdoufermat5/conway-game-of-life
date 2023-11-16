@@ -41,7 +41,7 @@ Il suffit juste d'ouvrir le fichier `index.html` dans un navigateur web pour pou
 
 <b>Spoiler Alert:</b> On est pas trop bon en html/css par ici!! 
 
-![gol](./assets/game-of-life.gif)
+![gol](./assets/gme-of-life.gif)
 
 #### 2. application console
 
