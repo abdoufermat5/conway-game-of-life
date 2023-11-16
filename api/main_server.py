@@ -1,7 +1,7 @@
 import asyncio
 import websockets
 import json
-from galsen_game_of_life import game_of_life  # Import your game_of_life function
+from galsen_game_of_life import game_of_life
 
 
 async def game_of_life_server(websocket, path):
@@ -27,10 +27,8 @@ async def game_of_life_server(websocket, path):
         print("Connection closed with error:", e)
 
 
-
 if __name__ == "__main__":
-
     start_server = websockets.serve(game_of_life_server, "localhost", 8000)
-    print("Server started at localhost:8000")
+    print("Server started at ws://localhost:8000")
     asyncio.get_event_loop().run_until_complete(start_server)
     asyncio.get_event_loop().run_forever()
