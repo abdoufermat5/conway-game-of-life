@@ -7,31 +7,30 @@
 </head>
 
 <body>
-    <h1>Game of Life Conway</h1>
+    <h1>Jeu de la vie de J.H Conway</h1>
     <div class="description">
 
-        <h2>Rules</h2>
+        <h2>Règles</h2>
         <div>
             <ul>
-                <li>Any live cell with fewer than 2 live neighbours dies by underpopulation.</li>
-                <li>Any live cell with 2 or 3 live neighbours lives on to the next generation.</li>
-                <li>Any live cell with more than 3 live neighbours dies by overpopulation.</li>
-                <li>Any dead cell with exactly 3 live neighbours becomes a live cell by reproduction.</li>
+                <li>Une cellule morte possédant exactement 3 voisines vivantes devient vivante (elle naît).</li>
+                <li>Une cellule vivante possédant 2 ou 3 voisines vivantes le reste, sinon elle meurt.</li>
+                <li>Les autres cellules (mortes ou vivantes) restent dans leur état actuel.</li>
             </ul>
         </div>
 
     </div>
 
     <div class="playRule">
-        <span>To create a new cell dead or alive click on the canvas</span>
+        <span>Pour créer une cellule vivante, cliquez sur une case vide du canvas.</span>
     </div>
     <div class="stepNum">
-        Number of steps:
+        Nombre d'etapes:
         <input type="number" id="numSteps" value="100" min="1" max="1000">
         
     </div>
     <div class="randomStateGen">
-        <button id="randomStateBtn">Generate Random State</button>
+        <button id="randomStateBtn">Générer un random state</button>
     </div>
     <canvas id="gameCanvas"></canvas>
     <div class="btnCOntainer">
