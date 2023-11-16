@@ -41,6 +41,8 @@ Il suffit juste d'ouvrir le fichier `index.html` dans un navigateur web pour pou
 
 <b>Spoiler Alert:</b> On est pas trop bon en html/css par ici!! 
 
+![gol](./assets/game-of-life.gif)
+
 #### 2. application console
 
 On peut aussi jouer au jeu de la vie en ligne de commande. Pour cela il vous faudra un fichier de depart contenant un etat initial
