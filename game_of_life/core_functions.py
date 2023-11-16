@@ -11,7 +11,7 @@ def game_of_life(matrices):
     for i in range(n_r):
         for j in range(n_c):
             num_neighbors = 0
-            print("ij: ", i, j, "mat:", matrices[i][j], end="\t")
+            # print("ij: ", i, j, "mat:", matrices[i][j], end="\t")
             for x in range(i - 1, i + 2):
                 for y in range(j - 1, j + 2):
                     if 0 <= x < len(matrices) and 0 <= y < len(matrices[0]):
@@ -19,21 +19,21 @@ def game_of_life(matrices):
                             num_neighbors += 1
 
             num_neighbors = num_neighbors - matrices[i][j]
-            print("neighbors: ",num_neighbors, end="\t")
+            # print("neighbors: ",num_neighbors, end="\t")
             if num_neighbors in [0, 1] or num_neighbors > 3:
-                    print("die")
+                    # print("die")
                     nex_M[i][j] = 0
             else:
 
                 if matrices[i][j] == 0:
                     if num_neighbors == 3:
-                        print("survival")
+                        # print("survival")
                         nex_M[i][j] = 1
                     else:
-                        print("died")
+                        pass
+                        # print("died")
                 if matrices[i][j] == 1:
                     nex_M[i][j] = 1
-                    print("survival")
+                    # print("survival")
 
     return nex_M
-
