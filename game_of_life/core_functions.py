@@ -37,29 +37,3 @@ def game_of_life(matrices):
 
     return nex_M
 
-
-def total_live_cells(matrices):
-    N = sum([sum(x) for x in matrices])
-    print("Total live cells", N)
-    return N
-
-
-def get_stable_state(matrices, n):
-    i = 0
-    while i < n:
-        print(f"iteration {i}:")
-        matrices = game_of_life(matrices)
-        display_state(matrices)
-        total_live_cells(matrices)
-        i += 1
-
-
-if __name__ == '__main__':
-    M = [[0, 1, 0, 1, 0],
-         [1, 0, 1, 0, 0],
-         [0, 1, 1, 0, 0],
-         [0, 0, 1, 0, 0],
-         [0, 0, 0, 0, 0]
-         ]
-    N_iter = 20
-    print(get_stable_state(M, N_iter))
